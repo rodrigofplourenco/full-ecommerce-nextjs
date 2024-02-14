@@ -1,0 +1,94 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ENUMS
+enum PriceType {
+  calculation
+  fixed
+}
+
+enum OptionType {
+  int
+  float
+  dropdown
+  imagechoice
+  file
+}
+
+enum Category {
+  vinyl
+  garments
+  business
+  design
+  signage
+}
+
+// MODELS
+model Order {
+  id       String @id @unique
+  cart     Json?
+  customer Json?
+}
+
+model Product {
+  name        String     @id @unique
+  category    Category
+  title       String?
+  description String?
+  image       String?
+  price       Float?
+  priceType   PriceType?
+  formula     String?
+  tabs        Tab[]
+  options     Option[]
+
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+
+  @@map("products")
+}
+
+model Tab {
+  id      Int       @id @default(autoincrement())
+  label   String?   @unique
+  content String?
+  Product Product[]
+
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+
+  @@map("tabs")
+}
+
+model Option {
+  name     String            @id @unique
+  label    String?
+  type     OptionType?
+  required Boolean?
+  min      Int?
+  max      Int?
+  saveTo   String?
+  content  String?
+  options  SecondaryOption[]
+  Product  Product[]
+
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+
+  @@map("options")
+}
+
+model SecondaryOption {
+  id     Int      @id @default(autoincrement())
+  label  String?  @unique
+  value  Float?
+  image  String?
+  Option Option[]
+
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+
+  @@map("secondary_options")
+}
