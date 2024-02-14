@@ -24,3 +24,4 @@ npm run dev
 
 Dont forget to change .env variables!
 This project uses SQUARE api for checkout and MySQL for database
+The images will be tracked from /public folder, so you only need to set the remaining path on DB
