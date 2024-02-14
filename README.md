@@ -23,3 +23,4 @@ npm run dev
 ```
 
 Dont forget to change .env variables!
+This project uses SQUARE api for checkout and MySQL for database
